@@ -16,7 +16,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping("/{email}")
+    @GetMapping("/get/{email}")
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("email") String email) {
         return ResponseEntity.ok(customerService.retrieveCustomer(email));
     }
@@ -24,5 +24,10 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request) {
         return ResponseEntity.ok(customerService.createCustomer(request));
+    }
+
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable String email) {
+        return ResponseEntity.ok(customerService.deleteCustomer(email));
     }
 }

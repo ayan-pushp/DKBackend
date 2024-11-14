@@ -51,7 +51,14 @@ public class CustomerService {
     }
 
     public String deleteCustomer(String email) {
-        Customer customer = getCustomer(email);
+        Customer customer = customerRepo.findByEmail(email)
+                .orElseThrow(() -> new CustomerNotFoundException(
+                        format("Cannot delete Customer:: No customer found with the provided email:: %s", email)
+                ));
+
+        customerRepo.delete(customer);
+
+        return "Customer deleted successfully";
     }
 }
 
