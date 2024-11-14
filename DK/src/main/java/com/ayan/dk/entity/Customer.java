@@ -23,6 +23,15 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name="mobile")
+    private String mobile;
+
+    @Column(name="address")
+    private String address;
+
+    @Column(name="pincode")
+    private String pincode;
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 

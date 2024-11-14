@@ -8,6 +8,13 @@ public record CustomerResponse(
         @JsonProperty("last_name")
         String lastName,
         @JsonProperty("email")
-        String email
+        String email,
+        @JsonProperty("mobile")
+        String mobile,
+        @JsonProperty("address")
+        String address,
+        @JsonProperty("pincode")
+        String pincode
+
 ) {
 }

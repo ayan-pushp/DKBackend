@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import static java.lang.String.format;
 
 import com.ayan.dk.dto.CustomerRequest;
+import com.ayan.dk.dto.CustomerUpdateRequest;
 import com.ayan.dk.dto.CustomerResponse;
 import com.ayan.dk.dto.LoginRequest;
 import com.ayan.dk.entity.Customer;
@@ -47,7 +48,7 @@ public class CustomerService {
             return "Wrong Password or Email";
         }
 
-        return jwtHelper.generateToken(request.email());
+        return "Customer logged in successfully!\n Here's the token: "+jwtHelper.generateToken(request.email());
     }
 
     public String deleteCustomer(String email) {
@@ -59,6 +60,33 @@ public class CustomerService {
         customerRepo.delete(customer);
 
         return "Customer deleted successfully";
+    }
+
+    public String updateCustomerDetails(String email, CustomerUpdateRequest updateRequest) {
+
+        Customer customer = customerRepo.findByEmail(email)
+                .orElseThrow(() -> new CustomerNotFoundException(
+                        String.format("Customer with email %s not found", email)
+                ));
+
+        if (updateRequest.firstName() != null) {
+            customer.setFirstName(updateRequest.firstName());
+        }
+        if (updateRequest.lastName() != null) {
+            customer.setLastName(updateRequest.lastName());
+        }
+        if (updateRequest.mobile() != null) {
+            customer.setMobile(updateRequest.mobile());
+        }
+        if (updateRequest.address() != null) {
+            customer.setAddress(updateRequest.address());
+        }
+        if (updateRequest.pincode() != null) {
+            customer.setPincode(updateRequest.pincode());
+        }
+
+        customerRepo.save(customer);
+        return "Customer details updated successfully";
     }
 }
 

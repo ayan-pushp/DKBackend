@@ -2,6 +2,7 @@ package com.ayan.dk.controller;
 
 import com.ayan.dk.dto.CustomerRequest;
 import com.ayan.dk.dto.CustomerResponse;
+import com.ayan.dk.dto.CustomerUpdateRequest;
 import com.ayan.dk.dto.LoginRequest;
 import com.ayan.dk.service.CustomerService;
 import jakarta.validation.Valid;
@@ -29,5 +30,12 @@ public class CustomerController {
     @DeleteMapping("/delete/{email}")
     public ResponseEntity<String> deleteCustomer(@PathVariable String email) {
         return ResponseEntity.ok(customerService.deleteCustomer(email));
+    }
+
+    @PatchMapping("/update/{email}")
+    public ResponseEntity<String> updateCustomerDetails(@PathVariable String email,
+                                                        @RequestBody @Valid CustomerUpdateRequest request) {
+        String responseMessage = customerService.updateCustomerDetails(email, request);
+        return ResponseEntity.ok(responseMessage);
     }
 }
