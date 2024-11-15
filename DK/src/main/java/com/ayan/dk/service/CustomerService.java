@@ -1,6 +1,7 @@
 package com.ayan.dk.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import static java.lang.String.format;
 
@@ -51,7 +52,12 @@ public class CustomerService {
         return "Customer logged in successfully!\n Here's the token: "+jwtHelper.generateToken(request.email());
     }
 
-    public String deleteCustomer(String email) {
+    public String deleteCustomer(String token, String email) {
+
+        if (email == null || !jwtHelper.validateToken(token, email)) {
+            return "You do not have permission to perform this action";
+        }
+
         Customer customer = customerRepo.findByEmail(email)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         format("Cannot delete Customer:: No customer found with the provided email:: %s", email)
@@ -62,7 +68,11 @@ public class CustomerService {
         return "Customer deleted successfully";
     }
 
-    public String updateCustomerDetails(String email, CustomerUpdateRequest updateRequest) {
+    public String updateCustomerDetails(String token, String email, CustomerUpdateRequest updateRequest) {
+
+        if (email == null || !jwtHelper.validateToken(token, email)) {
+            return "You do not have permission to perform this action";
+        }
 
         Customer customer = customerRepo.findByEmail(email)
                 .orElseThrow(() -> new CustomerNotFoundException(
