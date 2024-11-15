@@ -27,4 +27,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProduct(name));
     }
 
+    @GetMapping("/top")
+    public ResponseEntity<List<ProductResponse>> getTop2ProductsInRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
+        List<ProductResponse> list= productService.getTop2ProductsInPriceRange(minPrice, maxPrice);
+        return ResponseEntity.ok(list);
+    }
 }

@@ -7,6 +7,8 @@ import com.ayan.dk.exception.ProductNotFoundException;
 import com.ayan.dk.mapper.ProductMapper;
 import com.ayan.dk.repo.ProductRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import static java.lang.String.format;
 import java.util.*;
@@ -32,4 +34,15 @@ public class ProductService {
         return productMapper.toProductResponse(product);
     }
 
+    public List<ProductResponse> getTop2ProductsInPriceRange(double minPrice, double maxPrice) {
+
+        // Fetch the top 2 products with the price range and limit
+        Pageable pageable = PageRequest.of(0, 2);
+        List<Product> products = productRepo.findByPriceBetweenOrderByPriceDesc(minPrice, maxPrice, pageable);
+
+        // Map each product to ProductResponse and return the list
+        return products.stream()
+                .map(productMapper::toProductResponse) // Map each Product to ProductResponse
+                .collect(Collectors.toList()); // Collect results into a list
+    }
 }
