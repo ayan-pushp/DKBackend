@@ -1,7 +1,6 @@
 package com.ayan.dk.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import static java.lang.String.format;
 
